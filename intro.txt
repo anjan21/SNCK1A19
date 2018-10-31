@@ -1,0 +1,2 @@
+This repo contains soltuion to various question sasked in the contest ehose link is 
+https://www.codechef.com/SNCK1A19
