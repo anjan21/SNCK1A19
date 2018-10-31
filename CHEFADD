@@ -1,0 +1,42 @@
+/*
+https://www.codechef.com/SNCK1A19/problems/CHEFADD
+
+*/
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long int ll;
+
+ll dpt[32][32][32][2];
+int cc[32];
+
+ll dp(int bit,int aa,int bb,int car)
+{
+    if(bit==32)
+    return aa==0 && bb==0  && car==0;
+
+    if(dpt[bit][aa][bb][car]!=-1) return dpt[bit][aa][bb][car];
+    ll res=0;
+    for(int ai=0;ai<2;ai++)if(aa>=ai)
+    for(int bi=0;bi<2;bi++)if(bb>=bi)
+    {
+        if((ai+bi+car)%2==cc[bit])
+        res+=dp(bit+1,aa-ai,bb-bi,(ai+bi+car)/2);
+    }
+    dpt[bit][aa][bb][car]=res;
+    return res;
+}
+
+int main()
+{
+    int t0,a,b,c;cin>>t0;
+    while(t0--)
+    {
+        cin>>a>>b>>c;
+        memset(dpt,-1,sizeof(dpt));
+        for(int i=0;i<32;i++) cc[i]=(c>>i)&1;
+        
+        ll res=dp(0,__builtin_popcount(a),__builtin_popcount(b),0);
+        cout<<res<<endl;
+    
+    }
+}
