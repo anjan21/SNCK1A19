@@ -1,0 +1,227 @@
+/*
+https://www.codechef.com/SNCK1A19/problems/PERIODIC
+
+*/
+
+#include <bits/stdc++.h>
+using namespace std;
+int kp=1, ppo=0; 
+#define int long long int
+#define mp make_pair
+#define pb push_back
+#define F first
+#define S second
+const int N=10000005;
+#define pii pair<int,int>
+#define M 1000000007
+#define double long double
+#define BINF 1000000000000000001
+#define init(arr,val) memset(arr,val,sizeof(arr))
+#define MAXN 16190001
+
+
+    
+#undef int
+int main()
+{
+#define int long long int
+
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        int n;
+        cin>>n;
+        int a[n+1];
+        for(int i=1;i<=n;i++) cin>>a[i];
+        
+        /*for(int i=1;i<=n;i++)
+        cout<<i<<' '<<a[i]<<endl;*/
+
+        set<int>U,V;
+        int r=0,e=0;
+
+        for(int i=1;i<=n;i++)
+        {
+            if(a[i]>=1)
+            {
+                if(i-a[i]+1>0)
+                    V.insert(i-a[i]+1),e=1;
+                else U.insert(i-a[i]+1),r=1;
+            }
+        }
+
+        vector<int>v,u;
+        v.clear();
+        u.clear();
+        //cout<<v.size()<<' '<<u.size()<<endl;
+        if(e){
+        for(auto i:V) v.pb(i);  
+        }
+        if(r){
+        for(auto i:U) u.pb(i);
+        }
+        
+        /*cout<<u.size()<<endl;
+        for(auto i:u)
+        cout<<i<<' ';
+        cout<<endl;*/
+        
+        //cout<<v.size()<<' '<<u.size()<<endl;
+        
+
+        if(u.size()==0 && v.size()==0){ cout<<"inf"<<endl; continue;} //-1 -1 -1 -1 -1 -1 -1
+
+        if(v.size()>=2)
+        {
+            int x=0;
+            for(int i=1;i<v.size();i++)
+                x=__gcd(x,v[i]-v[i-1]);
+           
+          // cout<<x<<endl;
+
+           if(u.size()==0)
+           {
+              
+                int b[n+1];
+                init(b,-1);
+
+                int xx=1;
+                for(int i=v[0];i<=n;i++)
+                {
+                    b[i]=xx;
+                    xx++;
+                    if(xx>x) xx=1;
+                }
+
+                 int f=0;
+                for(int i=1;i<=n;i++)
+                    if(a[i]!=-1 && a[i]!=b[i])
+                        f=1;
+                if(f==0)
+                {
+                    cout<<x<<endl; continue;
+                }
+                else { cout<<"impossible"<<endl; continue;}
+
+           }
+           else
+           {
+
+            int b[n+1];
+            init(b,-1);
+
+            int first=1-u[0]+1;
+            for(int i=1;i<v[0];i++)
+            {
+                b[i]=first;
+                first++;
+            }
+            int yy=b[v[0]-1];
+
+            if(x!=yy)
+            {
+                cout<<"impossible"<<endl; continue;
+            }
+
+
+                int xx=1;
+                for(int i=v[0];i<=n;i++)
+                {
+                    b[i]=xx;
+                    xx++;
+                    if(xx>yy) xx=1;
+                }
+
+                 int f=0;
+                for(int i=1;i<=n;i++)
+                    if(a[i]!=-1 && a[i]!=b[i])
+                        f=1;
+                if(f==0)
+                {
+                   cout<<yy<<endl;
+                   continue;
+                }
+                else { cout<<"impossible"<<endl; continue;}
+           }
+        }
+
+        if(v.size()==1 && u.size()==0) {cout<<"inf"<<endl; continue;}
+
+        if(v.size()==0 && u.size()>0)
+        {
+            int first=1-u[0]+1;
+            int b[n+1];
+            for(int i=1;i<=n;i++)
+            {
+                b[i]=first;
+                first++;
+            }
+            int f=0;
+            for(int i=1;i<=n;i++)
+                if(a[i]!=-1 && a[i]!=b[i])
+                    f=1;
+            if(f==0)
+            {
+                cout<<"inf"<<endl; continue;
+            }
+            else { cout<<"impossible"<<endl; continue;}
+        }
+
+        if(v.size()==1 && u.size()>0)
+        {
+            int f=0;
+
+           for(int i=v[0];i<=n;i++)
+           {
+            if((i-a[i]+1)<=0 && a[i]!=-1) f=1;
+           }
+
+
+
+            int strt=1;
+            int x=1-u[0]+1;
+            int b[n+1];
+            for(int i=1;i<v[0];i++)
+            {
+                b[i]=x; x++;
+            }
+
+            for(int i=v[0];i<=n;i++)
+                b[i]=strt++;
+
+            
+            
+          int ppo=b[v[0]-1];
+          
+
+            
+            for(int i=1;i<=n;i++)
+                if(a[i]!=-1 && a[i]!=b[i])
+                    f=1;
+            if(f==0)
+            {
+                cout<<b[v[0]-1]<<endl; continue;
+            }
+            else { cout<<"impossible"<<endl; continue;}
+        }
+
+
+
+
+
+
+    }//T case
+
+    
+
+
+
+return 0;
+}
+
+
