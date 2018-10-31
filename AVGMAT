@@ -1,0 +1,168 @@
+/*
+
+https://www.codechef.com/SNCK1A19/problems/AVGMAT
+
+
+*/
+#include <bits/stdc++.h>
+using namespace std;
+int kp=1, ppo=0; 
+#define int long long int
+#define mp make_pair
+#define pb push_back
+#define F first
+#define S second
+const int N=10000005;
+#define pii pair<int,int>
+#define M 1000000007
+#define double long double
+#define BINF 1000000000000000001
+#define init(arr,val) memset(arr,val,sizeof(arr))
+#define MAXN 16190001
+
+
+    
+#undef int
+int main()
+{
+#define int long long int
+
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+
+    int t;
+    cin>>t;
+    while(t--){
+
+    int n,m;
+    cin>>n>>m;
+    string s[n];
+    for(int i=0;i<n;i++)
+        cin>>s[i];
+    int arr[n+1][m+1];
+    for(int i=1;i<=n;i++)
+        for(int j=1;j<=m;j++)
+            arr[i][j]=s[i-1][j-1]-'0';
+
+    int a[1620][1620];
+    init(a,0);
+
+    for(int i=605;i<605+n;i++)
+        for(int j=605;j<605+m;j++)
+            a[i][j]=arr[i-605+1][j-605+1];
+
+    int b[1620][1620];
+    init(b,0);
+//strt=500 end=500+n/m-1
+    for(int i=605;i<605+n;i++)
+        for(int j=605;j<605+m;j++)
+            b[i][j]=arr[i-605+1][j-605+1];
+            
+           
+
+
+    int pre[1620][1620];
+    init(pre,0);
+
+    for(int i=0;i<1620;i++)
+        pre[0][i]=a[0][i];
+    for(int j=0;j<1620;j++)
+        pre[j][0]=a[j][0];
+
+    for(int i=0;i<1620;i++)
+    {
+        int p=1,q=i+1;
+        while(p<1620 && q<1620)
+        {
+            pre[p][q]=pre[p-1][q-1]+a[p][q];
+            p++;q++;
+        }
+    }
+    for(int i=1;i<1620;i++)
+    {
+        int p=i+1,q=1;
+        while(p<1620 && q<1620)
+        {
+            pre[p][q]=a[p][q]+pre[p-1][q-1];
+            p++;q++;
+        }
+    }
+
+    int foo[1620][1620];
+    init(foo,0);
+
+    for(int i=0;i<1620;i++)
+        foo[0][i]=b[0][i];
+    for(int j=0;j<1620;j++)
+        foo[j][1619]=b[j][1619];
+
+    for(int i=1619;i>=0;i--)
+    {
+        int p=1,q=i-1;
+        while(p<1620 && q>=0)
+        {
+            foo[p][q]=a[p][q]+foo[p-1][q+1];
+            p++;q--;
+        }
+    }
+
+    for(int i=1;i<1620;i++)
+    {
+        int p=i+1,q=1618;
+        while(p<1620 && q>=0)
+        {
+            foo[p][q]=a[p][q]+foo[p-1][q+1];
+            p++;q--;
+        }
+    }
+
+    int len[10000];
+    init(len,0);
+
+    for(int i=605;i<605+n;i++)
+    {
+        for(int j=605;j<605+m;j++)
+        {
+            for(int l=1;l<=m+n-2;l++)
+            {
+                int lefti=i,leftj=j-l;
+                int upi=i-l,upj=j;
+                int righti=i,rightj=j+l;
+                int downi=i+l,downj=j;
+
+                int u=foo[lefti][leftj]-foo[upi-1][upj+1];
+                int v=foo[downi][downj]-foo[righti-1][rightj+1];
+                int w=pre[downi][downj]-pre[lefti-1][leftj-1];
+                int x=pre[righti][rightj]-pre[upi-1][upj-1];
+                
+                if(a[i][j]==1){
+
+                int ans=u+v+w+x-(a[lefti][leftj]+a[righti][rightj]+b[upi][upj]+b[downi][downj]);
+
+                len[l]+=ans;
+                }
+
+            }
+        }
+    }
+
+    for(int i=1;i<=m+n-2;i++)
+        cout<<len[i]/2<<' ';
+
+    cout<<endl;
+
+}
+
+
+
+
+
+
+
+
+
+return 0;
+}
+
+
